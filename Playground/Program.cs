@@ -9,75 +9,64 @@ namespace Playground
         static void Main(string[] args)
         {
 
-            List<int> list = new List<int>
+            // int[] list = new int[150];
+            // for (int i = 0; i < list.Length - 1; i++)
+            // {
+            //     Random random = new Random();
+            //     list[i] = random.Next();
+            // }
+
+            int[] list = { 4, 3, 6, 8, 5, 18, 0, 9 };
+
+            QuickSort(list, 0, list.Count() - 1);
+
+            foreach (var num in list)
             {
-                2,6,7,3,4
-            };
-
-
-            list = Sort(list.ToList());
-
-            foreach (var item in list)
-            {
-                System.Console.WriteLine(item);
+                System.Console.WriteLine(num);
             }
+
         }
 
-        public static List<int> Sort(List<int> list)
+        public static void QuickSort(int[] arr, int head, int tail)
         {
-            if (list.Count <= 1)
+            if (head >= tail || arr == null || arr.Length <= 1)
             {
-                return list;
-            }
-            int mid = list.Count / 2;
-            List<int> Left = new List<int>();
-            List<int> Right = new List<int>();
-
-            for (int i = 0; i < mid; i++)
-            {
-                Left.Add(list[i]);
-            }
-            for (int j = mid; j < list.Count; j++)
-            {
-                Right.Add(list[j]);
+                return;
             }
 
-            Left = Sort(Left);
-            Right = Sort(Right);
-            return Merge(Left, Right);
-        }
-
-        public static List<int> Merge(List<int> left, List<int> right)
-        {
-            List<int> tmp = new List<int>();
-            while (left.Count > 0 && right.Count > 0)
+            var pivot = arr[(head + tail) / 2];
+            int tmpHead = head, tmpTail = tail;
+            while (tmpHead <= tmpTail)
             {
-                if (left[0] <= right[0])
+                while (arr[tmpHead] < pivot)
                 {
-                    tmp.Add(left[0]);
-                    left.RemoveAt(0);
+                    ++tmpHead;
                 }
-                else
+
+                while (arr[tmpTail] > pivot)
                 {
-                    tmp.Add(right[0]);
-                    right.RemoveAt(0);
+                    --tmpTail;
+                }
+                if (tmpHead < tmpTail)
+                {
+                    int tmp = arr[tmpHead];
+                    arr[tmpHead] = arr[tmpTail];
+                    arr[tmpTail] = tmp;
+                    ++tmpHead;
+                    --tmpTail;
+                }
+                else if (tmpHead == tmpTail)
+                {
+                    ++tmpHead;
                 }
             }
 
-            if (left.Count() > 0)
-            {
-                for (int i = 0; i < left.Count; i++)
-                    tmp.Add(left[0]);
-            }
 
-            if (right.Count() > 0)
-            {
-                for (int i = 0; i < right.Count; i++)
-                    tmp.Add(right[0]);
-            }
 
-            return tmp;
+            QuickSort(arr, head, tmpTail);
+            QuickSort(arr, tmpHead, tail);
         }
+
 
     }
 }
