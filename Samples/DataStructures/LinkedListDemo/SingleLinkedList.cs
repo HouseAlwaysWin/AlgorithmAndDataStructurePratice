@@ -65,7 +65,26 @@ namespace Samples.DataStructures.LinkedListDemo
             throw new IndexOutOfRangeException();
         }
 
+        public void Delete(int data)
+        {
+            if (Head.Data == data)
+            {
+                Head = Head.Next;
+            }
 
+            var current = Head;
+            while (current.Next != null)
+            {
+                if (current.Next.Data == data)
+                {
+                    current.Next = current.Next.Next;
+                    return;
+                }
+                current = current.Next;
+            }
+        }
+
+    
 
     }
 }
